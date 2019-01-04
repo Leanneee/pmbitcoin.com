@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Auto exchanger Perfect Money to Bitcoin - PMBITCOIN.com</title>
+<meta name="keywords" content="bitcoin, buy, sell, exchanger, perfect, money, auto, fast, exchange, automatics, to, perfectmoney, pm">
+<meta name="description" content="Automatic exchanger perfect money to bitcoin. Fast take bitcoin...">
+<style>body {color:#666666; margin:0px auto; font-family: Verdana;width:800px}
+	ul {margin: 5px;}
+	li {display:inline-block; margin: 5px; white-space: nowrap}
+	.header {border-bottom:solid 1px #999999; font-size: 13px;color: #999999}
+	h1 {font-size: 20px;width:100%;margin:7vh auto; text-align:center}
+	footer {position: fixed; bottom:0; text-align:center;width:800px}
+	input {border:solid 1px #666666; border-radius:3px; font-size:16px; color:#999999; padding:5px;}
+	button {border:solid 1px #666666; border-radius:7px; background: #666666; color: white; width: 700px; padding: 5px; font-size: 16px; cursor: pointer}
+</style>
+<script>
+var last = 13668.16150;
+
+function usd2btc(amount) {
+	amount = parseFloat(amount);
+	var btc = amount / last;
+	return btc;
+}
+
+function btc2usd(amount) {
+	amount = parseFloat(amount);
+	var usd = amount * last;
+	return usd;
+}
+
+function recalc_usd(amount) {
+	usd = parseFloat(amount.value);
+	if(usd < 1) {
+		usd = 1;
+		document.getElementById('amount_usd').value = usd.toFixed(2);
+	}
+
+	var btc = usd2btc(usd),
+	pay = document.getElementById('pay');
+
+	document.getElementById('recv').innerHTML = btc.toFixed(5);
+	document.getElementById('amount_btc').value = btc.toFixed(5);
+
+	if (btc >= 0.8562457) {
+		pay.style.opacity = 0.2;
+		pay.disabled = true;
+	} else {
+		pay.style.opacity = 1;
+		pay.disabled = false;
+	} 
+}
+
+function recalc_btc(amount) {
+	var btc = parseFloat(amount.value),
+	usd = btc2usd(btc),
+	pay = document.getElementById('pay');
+
+	document.getElementById('recv').innerHTML = btc.toFixed(5);
+	document.getElementById('amount_usd').value = usd.toFixed(2);
+
+	if (btc >= 0.8562457) {
+		pay.style.opacity = 0.2;
+		pay.disabled = true;
+	} else {
+		pay.style.opacity = 1;
+		pay.disabled = false;
+	} 
+}
+</script>
+</head>
+<body>
+	<ul class="header">
+		<div align="right" style="float: right; margin: 5px;"><a href="order.html" style="color:#666666">Check Order</a></div>
+		<li>BTC available: 0.8562457</li>
+		<li>Last price: 13668.16150</li>
+	</ul>
+	<section>
+		<h1>&nbsp;</h1>
+		<form name="payment" action="payment.html" method=POST>
+			<input type=hidden name=PAYEE_ACCOUNT value="U5093715">
+			<input type=hidden name=PAYEE_NAME value="PMBITCOIN.com">
+			<input type=hidden name=PAYMENT_UNITS value="USD">
+			<input type=hidden name=STATUS_URL value="https://pmbitcoin.com/status">
+			<input type=hidden name=PAYMENT_URL value="https://pmbitcoin.com/btc/done">
+			<input type=hidden name=NOPAYMENT_URL value="https://pmbitcoin.com/btc/failed">
+			<ul>
+				<li style="width:150px">Bitcoin wallet:</li>
+				<li><input name="BTC_ADDR" placeholder="" size=50 pattern="^1[0-9a-zA-Z]{26,33}" required autofocus></li>
+			</ul>
+			<ul>
+				<li style="width:150px">Amount:</li>
+				<li style="width:150px"><input id="amount_usd" name="PAYMENT_AMOUNT" placeholder="" size=3 pattern="^[0-9.]+$" onkeyup="recalc_usd(this);" required> USD</li>
+				<li style="width:150px"><input id="amount_btc" name="PAYMENT_AMOUNT_BTC" placeholder="" size=3 pattern="^[0-9.]+$" onkeyup="recalc_btc(this);" required> BTC</li>
+				<li style="color:#999999">Will receive <span id="recv">0</span> BTC</li>
+			</ul>
+			<ul>
+				<li><button id="pay">PAY</button></li>
+			</ul>
+		</form>
+	</section>
+	<footer>
+		<a href="https://perfectmoney.is/?ref=U5093715"><img src="weaccept.jpg"></a>
+		<p>© 2013 Exchanger PMBitcoin. All rights reserved.<br>E-mail: pmbitcoin@yahoo.com</p>
+	</footer>
+</body>
+</html>
